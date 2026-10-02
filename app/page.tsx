@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import anime from 'animejs';
 import { GameHeader } from '../components/GameHeader';
 import { LockProgress } from '../components/LockProgress';
 import { ScoreDisplay } from '../components/ScoreDisplay';
@@ -63,6 +64,16 @@ export default function Game() {
   const [wrongEmails, setWrongEmails] = useState<string[]>([]);
 
   useEffect(() => {
+    // Subtle entry animation for the whole game
+    anime({
+      targets: '.cyber-grid',
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'easeOutExpo'
+    });
+  }, []);
+
+  useEffect(() => {
     let timer: NodeJS.Timeout;
     if (gameState === 'playing' && timeRemaining > 0) {
       timer = setInterval(() => {
@@ -119,7 +130,9 @@ export default function Game() {
         <div className="absolute top-4 right-4 z-50">
           <ThemeToggle />
         </div>
-        <StartScreen onStart={handleStart} />
+        <div className="start-screen-container scale-95 opacity-0">
+          <StartScreen onStart={handleStart} />
+        </div>
       </main>
     );
   }
