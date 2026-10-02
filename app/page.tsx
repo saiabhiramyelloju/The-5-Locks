@@ -11,6 +11,7 @@ import { HintButton } from '../components/HintButton';
 import { SuccessScreen } from '../components/SuccessScreen';
 import { GameOverScreen } from '../components/GameOverScreen';
 import { StartScreen } from '../components/StartScreen';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 interface Email {
   id: string;
@@ -115,6 +116,9 @@ export default function Game() {
     return (
       <main className="min-h-screen flex items-center justify-center p-4 cyber-grid relative">
         <div className="absolute inset-0 theme-overlay pointer-events-none"></div>
+        <div className="absolute top-4 right-4 z-50">
+          <ThemeToggle />
+        </div>
         <StartScreen onStart={handleStart} />
       </main>
     );
