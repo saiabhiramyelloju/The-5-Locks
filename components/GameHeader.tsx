@@ -6,13 +6,28 @@ export const GameHeader = () => {
 
   return (
     <div className="relative text-center mb-8">
-      <button
-        onClick={toggleTheme}
-        className="absolute -top-2 -right-12 md:right-0 p-2 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 transition-all text-white font-mono text-xs uppercase tracking-widest"
-        title="Toggle Theme"
-      >
-        {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
-      </button>
+      <div className="absolute top-0 right-0 flex items-center gap-2 bg-black/20 p-1 rounded-full border border-white/10 backdrop-blur-sm">
+        <button
+          onClick={() => theme === 'light' && toggleTheme()}
+          className={`p-2 rounded-full transition-all text-xs font-mono uppercase ${
+            theme === 'dark'
+              ? 'bg-white/20 text-white shadow-lg'
+              : 'text-slate-500 hover:text-slate-700'
+          }`}
+        >
+          🌙 Dark
+        </button>
+        <button
+          onClick={() => theme === 'dark' && toggleTheme()}
+          className={`p-2 rounded-full transition-all text-xs font-mono uppercase ${
+            theme === 'light'
+              ? 'bg-white text-slate-900 shadow-lg'
+              : 'text-slate-500 hover:text-slate-700'
+          }`}
+        >
+          ☀️ Light
+        </button>
+      </div>
       <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white mb-2 uppercase italic">
         The 5 Locks
       </h1>
