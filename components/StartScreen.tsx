@@ -2,9 +2,10 @@ import React from 'react';
 
 interface StartScreenProps {
   onStart: () => void;
+  onReset: () => void;
 }
 
-export const StartScreen = ({ onStart }: StartScreenProps) => (
+export const StartScreen = ({ onStart, onReset }: StartScreenProps) => (
   <div className="text-center space-y-12 animate-in fade-in duration-700">
     <div className="relative inline-block">
       <div className="text-8xl mb-4">🔐</div>
@@ -23,11 +24,19 @@ export const StartScreen = ({ onStart }: StartScreenProps) => (
       <p>5 Challenges.</p>
       <p>One Final System.</p>
     </div>
-    <button
-      onClick={onStart}
-      className="px-12 py-4 bg-white text-black font-black rounded-full hover:bg-cyan-400 transition-all uppercase tracking-widest text-lg"
-    >
-      Start Lock 1
-    </button>
+    <div className="flex flex-col items-center gap-4">
+      <button
+        onClick={onStart}
+        className="px-12 py-4 bg-white text-black font-black rounded-full hover:bg-cyan-400 transition-all uppercase tracking-widest text-lg"
+      >
+        Start Lock 1
+      </button>
+      <button
+        onClick={onReset}
+        className="text-gray-500 hover:text-red-400 font-mono text-xs uppercase tracking-widest transition-colors"
+      >
+        Reset Progress
+      </button>
+    </div>
   </div>
 );

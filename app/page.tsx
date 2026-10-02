@@ -66,22 +66,42 @@ export default function Game() {
   useEffect(() => {
     // Subtle entry animation for the whole game
     try {
-      (anime as any).default({
-        targets: '.cyber-grid',
-        opacity: [0, 1],
-        duration: 1000,
-        easing: 'easeOutExpo'
-      });
-
-      if (gameState === 'start') {
+      if ((anime as any).default) {
         (anime as any).default({
-          targets: '.start-screen-container',
-          scale: [0.95, 1],
+          targets: '.cyber-grid',
           opacity: [0, 1],
-          duration: 800,
-          easing: 'easeOutElastic(1, .8)',
-          delay: 200
+          duration: 1000,
+          easing: 'easeOutExpo'
         });
+
+        if (gameState === 'start') {
+          (anime as any).default({
+            targets: '.start-screen-container',
+            scale: [0.95, 1],
+            opacity: [0, 1],
+            duration: 800,
+            easing: 'easeOutElastic(1, .8)',
+            delay: 200
+          });
+        }
+      } else if (typeof anime === 'function') {
+        (anime as any)({
+          targets: '.cyber-grid',
+          opacity: [0, 1],
+          duration: 1000,
+          easing: 'easeOutExpo'
+        });
+
+        if (gameState === 'start') {
+          (anime as any)({
+            targets: '.start-screen-container',
+            scale: [0.95, 1],
+            opacity: [0, 1],
+            duration: 800,
+            easing: 'easeOutElastic(1, .8)',
+            delay: 200
+          });
+        }
       }
     } catch (e) {
       console.error('Animation error:', e);
