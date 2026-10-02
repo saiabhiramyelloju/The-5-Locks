@@ -1,8 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0a;
+  --background: #121212;
   --foreground: #ededed;
+  --cyber-grid-color: #2a2a2a;
+  --glass-bg: rgba(30, 30, 30, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --overlay-color: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme='light'] {
+  --background: #e2e8f0;
+  --foreground: #0f172a;
+  --cyber-grid-color: #cbd5e1;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --overlay-color: rgba(255, 255, 255, 0.4);
 }
 
 @theme inline {
@@ -20,16 +33,16 @@ body {
 }
 
 .cyber-grid {
-  background-image: linear-gradient(to right, #1a1a1a 1px, transparent 1px),
-                    linear-gradient(to bottom, #1a1a1a 1px, transparent 1px);
+  background-image: linear-gradient(to right, var(--cyber-grid-color) 1px, transparent 1px),
+                    linear-gradient(to bottom, var(--cyber-grid-color) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
 .glass-panel {
-  background: rgba(20, 20, 20, 0.7);
+  background: var(--glass-bg);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
 @keyframes shake {
@@ -50,4 +63,8 @@ body {
 
 .animate-pulse-green {
   animation: pulse-green 2s infinite;
+}
+
+.theme-overlay {
+  background-color: var(--overlay-color);
 }

@@ -114,7 +114,7 @@ export default function Game() {
   if (gameState === 'start') {
     return (
       <main className="min-h-screen flex items-center justify-center p-4 cyber-grid relative">
-        <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
+        <div className="absolute inset-0 theme-overlay pointer-events-none"></div>
         <StartScreen onStart={handleStart} />
       </main>
     );
@@ -123,7 +123,7 @@ export default function Game() {
   if (gameState === 'timeout') {
     return (
       <main className="min-h-screen flex items-center justify-center p-4 cyber-grid relative">
-        <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
+        <div className="absolute inset-0 theme-overlay pointer-events-none"></div>
         <GameOverScreen onRestart={handleRestart} />
       </main>
     );
@@ -132,7 +132,7 @@ export default function Game() {
   if (gameState === 'success') {
     return (
       <main className="min-h-screen flex items-center justify-center p-4 cyber-grid relative">
-        <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
+        <div className="absolute inset-0 theme-overlay pointer-events-none"></div>
         <SuccessScreen score={score} onRestart={handleContinue} />
       </main>
     );
@@ -141,7 +141,7 @@ export default function Game() {
   if (gameState === 'complete') {
     return (
       <main className="min-h-screen flex items-center justify-center p-4 cyber-grid relative">
-        <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
+        <div className="absolute inset-0 theme-overlay pointer-events-none"></div>
         <div className="text-center space-y-8 animate-in zoom-in duration-500">
           <div className="text-7xl mb-4">🔐</div>
           <h2 className="text-5xl font-black text-white uppercase italic tracking-tighter">
@@ -173,7 +173,7 @@ export default function Game() {
 
   return (
     <main className="min-h-screen flex flex-col items-center p-4 md:p-8 cyber-grid relative">
-      <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
+      <div className="absolute inset-0 theme-overlay pointer-events-none"></div>
 
       <div className="relative z-10 w-full max-w-4xl flex flex-col items-center">
         <GameHeader />
