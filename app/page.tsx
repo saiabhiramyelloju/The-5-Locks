@@ -158,6 +158,17 @@ export default function Game() {
     setGameState('start');
   };
 
+  const handleResetGame = () => {
+    if (confirm('Are you sure? Your saved progress will be deleted.')) {
+      localStorage.removeItem('the5locks-game-state');
+      setGameState('start');
+      setScore(100);
+      setTimeRemaining(60);
+      setHintUsed(false);
+      setWrongEmails([]);
+    }
+  };
+
   if (gameState === 'start') {
     return (
       <main className="min-h-screen flex items-center justify-center p-4 cyber-grid relative">
@@ -166,7 +177,7 @@ export default function Game() {
           <ThemeToggle />
         </div>
         <div className="start-screen-container">
-          <StartScreen onStart={handleStart} />
+          <StartScreen onStart={handleStart} onReset={handleResetGame} />
         </div>
       </main>
     );
