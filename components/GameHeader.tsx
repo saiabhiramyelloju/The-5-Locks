@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme } from '@/components/ThemeProvider';
+import { useTheme } from './ThemeProvider';
 
 export const GameHeader = () => {
   const { theme, toggleTheme } = useTheme();
