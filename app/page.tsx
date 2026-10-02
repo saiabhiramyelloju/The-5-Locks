@@ -145,7 +145,7 @@ export default function Game() {
         <div className="absolute top-4 right-4 z-50">
           <ThemeToggle />
         </div>
-        <div className="start-screen-container scale-95 opacity-0">
+        <div className="start-screen-container">
           <StartScreen onStart={handleStart} />
         </div>
       </main>
