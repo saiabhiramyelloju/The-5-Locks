@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import anime from 'animejs';
+import * as anime from 'animejs';
 import { GameHeader } from '../components/GameHeader';
 import { LockProgress } from '../components/LockProgress';
 import { ScoreDisplay } from '../components/ScoreDisplay';
@@ -65,13 +65,24 @@ export default function Game() {
 
   useEffect(() => {
     // Subtle entry animation for the whole game
-    anime({
+    (anime as any).default({
       targets: '.cyber-grid',
       opacity: [0, 1],
       duration: 1000,
       easing: 'easeOutExpo'
     });
-  }, []);
+
+    if (gameState === 'start') {
+      (anime as any).default({
+        targets: '.start-screen-container',
+        scale: [0.95, 1],
+        opacity: [0, 1],
+        duration: 800,
+        easing: 'easeOutElastic(1, .8)',
+        delay: 200
+      });
+    }
+  }, [gameState]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
