@@ -26,7 +26,7 @@ interface LockThreeProps {
 const MALWARE_FILES: MalwareFile[] = [
   {
     id: '1',
-    name: 'Resume_Abhiram.pdf',
+    name: 'Resume.pdf',
     type: 'PDF Document',
     size: '1.8 MB',
     source: 'VBIT Career Portal',

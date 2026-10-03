@@ -15,6 +15,7 @@ import { LockThree } from '../components/LockThree';
 import { LockFour } from '../components/LockFour';
 import { LockFive } from '../components/LockFive';
 import { FinalVictoryScreen } from '../components/FinalVictoryScreen';
+import { InsufficientXPScreen } from '../components/InsufficientXPScreen';
 import { EmailViewer } from '../components/EmailViewer';
 
 interface Email {
@@ -56,7 +57,7 @@ const EMAILS: Email[] = [
   },
 ];
 
-type GameState = 'start' | 'playing' | 'success' | 'timeout' | 'complete';
+type GameState = 'start' | 'playing' | 'success' | 'timeout' | 'complete' | 'insufficient-xp';
 
 export default function Game() {
   const [gameState, setGameState] = useState<GameState>('start');
@@ -129,7 +130,11 @@ export default function Game() {
       setTimeRemaining(nextLockDuration);
       setTimerActive(false);
     } else {
-      setGameState('complete');
+      if (score >= 450) {
+        setGameState('complete');
+      } else {
+        setGameState('insufficient-xp');
+      }
     }
   };
 
@@ -153,6 +158,15 @@ export default function Game() {
       <main className="min-h-screen flex items-center justify-center p-4 cyber-grid relative">
         <div className="absolute inset-0 theme-overlay pointer-events-none"></div>
         <GameOverScreen onRestart={handleRestart} />
+      </main>
+    );
+  }
+
+  if (gameState === 'insufficient-xp') {
+    return (
+      <main className="min-h-screen flex items-center justify-center p-4 cyber-grid relative">
+        <div className="absolute inset-0 theme-overlay pointer-events-none"></div>
+        <InsufficientXPScreen onRestart={handleRestart} />
       </main>
     );
   }
