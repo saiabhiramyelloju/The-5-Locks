@@ -6,13 +6,11 @@ import { GameHeader } from '../components/GameHeader';
 import { LockProgress } from '../components/LockProgress';
 import { ScoreDisplay } from '../components/ScoreDisplay';
 import { Timer } from '../components/Timer';
+import { EmailCard } from '../components/EmailCard';
+import { EmailViewer } from '../components/EmailViewer';
 import { SuccessScreen } from '../components/SuccessScreen';
 import { GameOverScreen } from '../components/GameOverScreen';
 import { StartScreen } from '../components/StartScreen';
-import { LockOne } from '../components/LockOne';
-import { LockTwo } from '../components/LockTwo';
-import { LockThree } from '../components/LockThree';
-import { EmailViewer } from '../components/EmailViewer';
 
 interface Email {
   id: string;
@@ -25,30 +23,30 @@ interface Email {
 const EMAILS: Email[] = [
   {
     id: '1',
-    sender: 'notifications@linkedin.com',
-    subject: 'New Job Opportunity: Junior Security Analyst',
-    message: 'Hello,\n\nBased on your profile and skills in Cybersecurity, a recruiter from TechGuard Solutions has viewed your profile and suggested you for a Junior Security Analyst position.\n\nLog in to your LinkedIn account to view the full job description and apply.\n\nBest regards,\nLinkedIn Recruiter Team',
+    sender: 'academic.office@vbit.ac.in',
+    subject: 'Important: Semester Examination Schedule',
+    message: 'Dear Students,\n\nPlease find attached the final timetable for the upcoming end-semester examinations. Ensure you verify your exam hall and timing to avoid any discrepancies.\n\nBest Regards,\nController of Examinations\nVBIT',
     isPhishing: false,
   },
   {
     id: 'phish',
-    sender: 'support@it-security-update.com',
-    subject: 'Action Required: Your Account is Restricted',
-    message: 'Dear User,\n\nOur security system has detected an unauthorized attempt to access your account from a device in another country. For your protection, we have temporarily restricted access to your portal.\n\nTo restore full access and verify your identity, you must sign in to our security validation portal immediately:\n\nValidate Here: http://account-verify-secure.net/security-check\n\nFailure to verify your account within 12 hours will result in a permanent lock of your records.\n\nIT Security Department',
+    sender: 'it-security@microsoft-verify.net',
+    subject: 'Security Alert: Unusual Login Activity Detected',
+    message: 'Dear User,\n\nOur systems have detected an unauthorized login attempt to your account from an unrecognized IP address in Eastern Europe.\n\nTo secure your account and prevent permanent suspension, you must verify your credentials immediately via our secure portal.\n\nFailure to do so within 24 hours will result in account lockout.\n\nVerify Account Now: http://microsoft-secure-portal.net/verify-identity',
     isPhishing: true,
   },
   {
     id: '2',
-    sender: 'no-reply@github.com',
-    subject: '[GitHub] Security Alert: Dependency Vulnerability',
-    message: 'Hello,\n\nWe found a security vulnerability in one of the dependencies of your repository "Cyber-Lock-Project". \n\nOur Dependabot has automatically opened a pull request to update the package to a secure version. Please review and merge the PR to secure your code.\n\nView the alert on GitHub.',
+    sender: 'placement.cell@vbit.ac.in',
+    subject: 'Upcoming Campus Recruitment Drive - TechCorp',
+    message: 'Attention Final Year Students,\n\nTechCorp is visiting our campus on Friday for a Graduate Engineer Trainee role. Eligible students (CGPA > 7.0) are requested to register through the portal by Wednesday 5 PM.\n\nRegards,\nTraining & Placement Officer',
     isPhishing: false,
   },
   {
     id: '3',
-    sender: 'newsletter@medium.com',
-    subject: 'Top Stories in Cybersecurity this Week',
-    message: 'Hi there,\n\nHere are the top reads curated for you:\n1. The Rise of AI-driven Phishing\n2. Zero Trust Architecture Explained\n3. How to Secure Your Home Network\n\nRead the full articles on Medium to stay updated with the latest industry trends.\n\nHappy reading!',
+    sender: 'administration@vbit.ac.in',
+    subject: 'Notice: Campus Maintenance Work',
+    message: 'All Students,\n\nPlease be informed that the main block elevators will be under maintenance this Sunday from 10 AM to 4 PM. Please use the stairs during this period. We apologize for the inconvenience.\n\nAdministration Office',
     isPhishing: false,
   },
 ];
@@ -57,11 +55,10 @@ type GameState = 'start' | 'playing' | 'success' | 'timeout' | 'complete';
 
 export default function Game() {
   const [gameState, setGameState] = useState<GameState>('start');
-  const [currentLock, setCurrentLock] = useState(1);
-  const [completedLock, setCompletedLock] = useState<number | null>(null);
   const [score, setScore] = useState(100);
-  const [timeRemaining, setTimeRemaining] = useState(100);
+  const [timeRemaining, setTimeRemaining] = useState(60);
   const [selectedEmailId, setSelectedEmailId] = useState<string | null>(null);
+  const [wrongEmails, setWrongEmails] = useState<string[]>([]);
 
   useEffect(() => {
     try {
@@ -104,26 +101,30 @@ export default function Game() {
 
   const handleStart = () => {
     setGameState('playing');
-    setCurrentLock(1);
     setScore(100);
     setTimeRemaining(60);
+    setWrongEmails([]);
+  };
+
+  const handleInspect = (id: string) => {
+    setSelectedEmailId(id);
   };
 
   const handleMarkPhishing = () => {
-    setCompletedLock(currentLock);
-    setScore(prev => prev + 100);
-    setGameState('success');
+    if (!selectedEmailId) return;
+
+    const email = EMAILS.find(e => e.id === selectedEmailId);
+    if (email?.isPhishing) {
+      setGameState('success');
+    } else {
+      setScore(prev => Math.max(0, prev - 10));
+      setWrongEmails(prev => [...prev, selectedEmailId]);
+      setSelectedEmailId(null);
+    }
   };
 
   const handleContinue = () => {
-    if (currentLock < 5) {
-      setCurrentLock(prev => prev + 1);
-      setGameState('playing');
-      // Reset timer for new level
-      setTimeRemaining(60);
-    } else {
-      setGameState('complete');
-    }
+    setGameState('complete');
   };
 
   const handleRestart = () => {
@@ -134,9 +135,9 @@ export default function Game() {
     if (confirm('Are you sure? Your saved progress will be deleted.')) {
       localStorage.removeItem('the5locks-game-state');
       setGameState('start');
-      setCurrentLock(1);
       setScore(100);
       setTimeRemaining(60);
+      setWrongEmails([]);
     }
   };
 
@@ -153,10 +154,7 @@ export default function Game() {
     return (
       <main className="min-h-screen flex items-center justify-center p-4 cyber-grid relative">
         <div className="absolute inset-0 theme-overlay pointer-events-none"></div>
-        <SuccessScreen
-          completedLock={completedLock || 1}
-          onRestart={handleContinue}
-        />
+        <SuccessScreen score={score} onRestart={handleContinue} />
       </main>
     );
   }
@@ -168,25 +166,25 @@ export default function Game() {
         <div className="text-center space-y-8 animate-in zoom-in duration-500">
           <div className="text-7xl mb-4">🔐</div>
           <h2 className="text-5xl font-black text-white uppercase italic tracking-tighter">
-            All Locks Breached
+            Lock 1 Completed
           </h2>
           <p className="text-green-400 font-mono tracking-widest uppercase">
-            You have successfully bypassed all security layers.
+            You identified the phishing attack.
           </p>
           <div className="text-3xl font-mono text-white">
             +{score} XP
           </div>
           <div className="glass-panel p-8 rounded-xl max-w-md mx-auto space-y-6">
             <div className="text-center">
-              <p className="text-gray-400 font-mono text-sm uppercase mb-2">Final Result</p>
-              <h3 className="text-2xl font-bold text-white mb-4">Master Hacker</h3>
-              <p className="text-cyan-400 font-mono text-xs uppercase animate-pulse">System Compromised</p>
+              <p className="text-gray-400 font-mono text-sm uppercase mb-2">Next Challenge</p>
+              <h3 className="text-2xl font-bold text-white mb-4">Lock 2</h3>
+              <p className="text-red-400 font-mono text-xs uppercase animate-pulse">Coming Soon</p>
             </div>
             <button
               onClick={handleRestart}
               className="w-full py-3 border border-white/20 text-white font-mono text-sm hover:bg-white/10 transition-colors uppercase tracking-widest"
             >
-            Play Again
+              Play Lock 1 Again
             </button>
           </div>
         </div>
@@ -206,56 +204,45 @@ export default function Game() {
         ) : (
           <>
             <GameHeader />
-            <LockProgress currentLock={currentLock} />
+            <LockProgress currentLock={1} />
 
             <div className="flex justify-between w-full max-w-2xl mb-8 font-mono">
               <ScoreDisplay score={score} />
               <Timer timeRemaining={timeRemaining} />
             </div>
 
-            {currentLock === 1 && (
-              <LockOne
-                emails={EMAILS}
-                score={score}
-                setScore={setScore}
-                onSuccess={() => {
-                  setCompletedLock(1);
-                  setScore(prev => prev + 100);
-                  setGameState('success');
-                }}
-              />
-            )}
-            {currentLock === 2 && (
-              <LockTwo
-                score={score}
-                setScore={setScore}
-                onSuccess={() => {
-                  setCompletedLock(2);
-                  setScore(prev => prev + 100);
-                  setGameState('success');
-                }}
-                currentLock={currentLock}
-              />
-            )}
-            {currentLock === 3 && (
-              <LockThree
-                score={score}
-                setScore={setScore}
-                onSuccess={() => {
-                  setCompletedLock(3);
-                  setScore(prev => prev + 100);
-                  setGameState('success');
-                }}
-                currentLock={currentLock}
-              />
-            )}
+            <div className="glass-panel p-6 rounded-2xl w-full max-w-2xl mb-8 text-center space-y-4">
+              <h2 className="text-2xl font-bold text-white italic uppercase">
+                Lock 1 — The Phishing Trap
+              </h2>
+              <p className="text-gray-400 text-sm max-w-md mx-auto">
+                "Someone is trying to trick you into giving away your credentials.
+                Find the phishing attempt among the arrivals."
+              </p>
+              <div className="pt-4">
+                <span className="text-xs font-mono text-cyan-400 border border-cyan-400/30 px-3 py-1 rounded uppercase tracking-widest">
+                  Objective: Find the phishing message
+                </span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl">
+              {EMAILS.map((email) => (
+                <EmailCard
+                  key={email.id}
+                  email={email}
+                  onClick={() => handleInspect(email.id)}
+                  isWrong={wrongEmails.includes(email.id)}
+                />
+              ))}
+            </div>
           </>
         )}
       </div>
 
       {selectedEmailId && (
         <EmailViewer
-          email={EMAILS.find(e => e.id === selectedEmailId)}
+          email={EMAILS.find(e => e.id === selectedEmailId)!}
           onClose={() => setSelectedEmailId(null)}
           onMarkPhishing={handleMarkPhishing}
         />

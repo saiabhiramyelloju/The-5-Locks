@@ -9,15 +9,6 @@
   --overlay-color: rgba(0, 0, 0, 0.1);
 }
 
-[data-theme='light'] {
-  --background: #e2e8f0;
-  --foreground: #0f172a;
-  --cyber-grid-color: #cbd5e1;
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.1);
-  --overlay-color: rgba(255, 255, 255, 0.4);
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

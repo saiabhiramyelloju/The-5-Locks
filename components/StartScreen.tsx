@@ -22,7 +22,7 @@ export const StartScreen = ({ onStart, onReset }: StartScreenProps) => (
     <div className="space-y-2 font-mono text-gray-400 uppercase tracking-tighter text-sm">
       <p>5 Locks.</p>
       <p>5 Challenges.</p>
-      <p>One Final System.</p>
+      <p>Win the goodies</p>
     </div>
     <div className="flex flex-col items-center gap-4">
       <button

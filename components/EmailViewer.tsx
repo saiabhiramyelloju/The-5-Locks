@@ -9,12 +9,13 @@ interface Email {
 }
 
 interface EmailViewerProps {
-  email: Email;
+  email: Email | undefined;
   onClose: () => void;
   onMarkPhishing: () => void;
 }
 
 export const EmailViewer = ({ email, onClose, onMarkPhishing }: EmailViewerProps) => {
+  if (!email) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
       <div className="glass-panel w-full max-w-2xl rounded-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
@@ -37,11 +38,6 @@ export const EmailViewer = ({ email, onClose, onMarkPhishing }: EmailViewerProps
               {email.message}
             </div>
           </div>
-          {email.id === 'phish' && (
-            <button className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg transition-colors uppercase tracking-widest text-sm">
-              Verify Account
-            </button>
-          )}
         </div>
         <div className="p-6 bg-white/5 flex gap-4">
           <button

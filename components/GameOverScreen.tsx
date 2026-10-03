@@ -11,9 +11,6 @@ export const GameOverScreen = ({ onRestart }: GameOverScreenProps) => (
       <h2 className="text-5xl font-black text-red-500 uppercase italic tracking-tighter">
         Time's Up
       </h2>
-      <p className="text-gray-400 font-mono tracking-widest uppercase">
-        The phishing attempt succeeded.
-      </p>
     </div>
     <button
       onClick={onRestart}
