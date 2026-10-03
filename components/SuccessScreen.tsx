@@ -26,7 +26,18 @@ export const LOCK_COMPLETION_DATA: Record<number, CompletionData> = {
     analysis: "By analyzing file metadata and signatures, you correctly identified a malicious executable from an unverified external source and quarantined it.",
     reward: 100
   },
-  // Lock 4 and 5 will be added when implemented
+  4: {
+    title: "LOCK BREACHED",
+    subtitle: "FIREWALL SECURED",
+    analysis: "The connection originated outside the internal network, came from an unknown device, and attempted to reach the administrative server through SSH on port 22.",
+    reward: 100
+  },
+  5: {
+    title: "LOCK BREACHED",
+    subtitle: "FINAL SYSTEM SECURED",
+    analysis: "All known threats have been contained and the system has passed the final security check.",
+    reward: 100
+  },
 };
 
 interface SuccessScreenProps {

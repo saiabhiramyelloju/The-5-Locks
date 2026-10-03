@@ -12,6 +12,9 @@ import { StartScreen } from '../components/StartScreen';
 import { LockOne } from '../components/LockOne';
 import { LockTwo } from '../components/LockTwo';
 import { LockThree } from '../components/LockThree';
+import { LockFour } from '../components/LockFour';
+import { LockFive } from '../components/LockFive';
+import { FinalVictoryScreen } from '../components/FinalVictoryScreen';
 import { EmailViewer } from '../components/EmailViewer';
 
 interface Email {
@@ -61,6 +64,7 @@ export default function Game() {
   const [completedLock, setCompletedLock] = useState<number | null>(null);
   const [score, setScore] = useState(100);
   const [timeRemaining, setTimeRemaining] = useState(100);
+  const [timerActive, setTimerActive] = useState(false);
   const [selectedEmailId, setSelectedEmailId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -92,21 +96,22 @@ export default function Game() {
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    if (gameState === 'playing' && timeRemaining > 0) {
+    if (gameState === 'playing' && timerActive && timeRemaining > 0) {
       timer = setInterval(() => {
         setTimeRemaining((prev) => prev - 1);
       }, 1000);
-    } else if (timeRemaining === 0 && gameState === 'playing') {
+    } else if (timeRemaining === 0 && gameState === 'playing' && timerActive) {
       setGameState('timeout');
     }
     return () => clearInterval(timer);
-  }, [gameState, timeRemaining]);
+  }, [gameState, timeRemaining, timerActive]);
 
   const handleStart = () => {
     setGameState('playing');
     setCurrentLock(1);
-    setScore(100);
+    setScore(0);
     setTimeRemaining(60);
+    setTimerActive(false);
   };
 
   const handleMarkPhishing = () => {
@@ -120,7 +125,9 @@ export default function Game() {
       setCurrentLock(prev => prev + 1);
       setGameState('playing');
       // Reset timer for new level
-      setTimeRemaining(60);
+      const nextLockDuration = (currentLock + 1 >= 4) ? 120 : 60;
+      setTimeRemaining(nextLockDuration);
+      setTimerActive(false);
     } else {
       setGameState('complete');
     }
@@ -135,8 +142,9 @@ export default function Game() {
       localStorage.removeItem('the5locks-game-state');
       setGameState('start');
       setCurrentLock(1);
-      setScore(100);
+      setScore(0);
       setTimeRemaining(60);
+      setTimerActive(false);
     }
   };
 
@@ -165,31 +173,7 @@ export default function Game() {
     return (
       <main className="min-h-screen flex items-center justify-center p-4 cyber-grid relative">
         <div className="absolute inset-0 theme-overlay pointer-events-none"></div>
-        <div className="text-center space-y-8 animate-in zoom-in duration-500">
-          <div className="text-7xl mb-4">🔐</div>
-          <h2 className="text-5xl font-black text-white uppercase italic tracking-tighter">
-            All Locks Breached
-          </h2>
-          <p className="text-green-400 font-mono tracking-widest uppercase">
-            You have successfully bypassed all security layers.
-          </p>
-          <div className="text-3xl font-mono text-white">
-            +{score} XP
-          </div>
-          <div className="glass-panel p-8 rounded-xl max-w-md mx-auto space-y-6">
-            <div className="text-center">
-              <p className="text-gray-400 font-mono text-sm uppercase mb-2">Final Result</p>
-              <h3 className="text-2xl font-bold text-white mb-4">Master Hacker</h3>
-              <p className="text-cyan-400 font-mono text-xs uppercase animate-pulse">System Compromised</p>
-            </div>
-            <button
-              onClick={handleRestart}
-              className="w-full py-3 border border-white/20 text-white font-mono text-sm hover:bg-white/10 transition-colors uppercase tracking-widest"
-            >
-            Play Again
-            </button>
-          </div>
-        </div>
+        <FinalVictoryScreen score={score} onRestart={handleRestart} />
       </main>
     );
   }
@@ -222,7 +206,9 @@ export default function Game() {
                   setCompletedLock(1);
                   setScore(prev => prev + 100);
                   setGameState('success');
+                  setTimerActive(false);
                 }}
+                setTimerActive={setTimerActive}
               />
             )}
             {currentLock === 2 && (
@@ -233,8 +219,10 @@ export default function Game() {
                   setCompletedLock(2);
                   setScore(prev => prev + 100);
                   setGameState('success');
+                  setTimerActive(false);
                 }}
                 currentLock={currentLock}
+                setTimerActive={setTimerActive}
               />
             )}
             {currentLock === 3 && (
@@ -245,8 +233,38 @@ export default function Game() {
                   setCompletedLock(3);
                   setScore(prev => prev + 100);
                   setGameState('success');
+                  setTimerActive(false);
                 }}
                 currentLock={currentLock}
+                setTimerActive={setTimerActive}
+              />
+            )}
+            {currentLock === 4 && (
+              <LockFour
+                score={score}
+                setScore={setScore}
+                onSuccess={() => {
+                  setCompletedLock(4);
+                  setScore(prev => prev + 100);
+                  setGameState('success');
+                  setTimerActive(false);
+                }}
+                currentLock={currentLock}
+                setTimerActive={setTimerActive}
+              />
+            )}
+            {currentLock === 5 && (
+              <LockFive
+                score={score}
+                setScore={setScore}
+                onSuccess={() => {
+                  setCompletedLock(5);
+                  setScore(prev => prev + 100);
+                  setGameState('success');
+                  setTimerActive(false);
+                }}
+                currentLock={currentLock}
+                setTimerActive={setTimerActive}
               />
             )}
           </>

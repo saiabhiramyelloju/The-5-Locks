@@ -20,6 +20,7 @@ interface LockThreeProps {
   setScore: React.Dispatch<React.SetStateAction<number>>;
   onSuccess: () => void;
   currentLock: number;
+  setTimerActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const MALWARE_FILES: MalwareFile[] = [
@@ -73,10 +74,15 @@ const MALWARE_FILES: MalwareFile[] = [
   },
 ];
 
-export const LockThree = ({ score, setScore, onSuccess, currentLock }: LockThreeProps) => {
+export const LockThree = ({ score, setScore, onSuccess, currentLock, setTimerActive }: LockThreeProps) => {
   const [view, setView] = useState<'briefing' | 'investigation'>('briefing');
   const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
   const [error, setError] = useState('');
+
+  const handleStartInvestigation = () => {
+    setView('investigation');
+    setTimerActive(true);
+  };
 
   const handleQuarantine = () => {
     const file = MALWARE_FILES.find(f => f.id === selectedFileId);
@@ -108,7 +114,7 @@ export const LockThree = ({ score, setScore, onSuccess, currentLock }: LockThree
           <div className="pt-4 border-t border-white/10">
             <p className="text-xs text-gray-500 uppercase mb-4 font-mono">Mission Status: System Under Investigation</p>
             <button
-              onClick={() => setView('investigation')}
+              onClick={handleStartInvestigation}
               className="px-10 py-4 bg-white text-black font-black rounded-full hover:bg-cyan-400 transition-all uppercase tracking-widest text-lg"
             >
               Start Investigation
