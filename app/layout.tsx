@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The 5 Locks — Cybersecurity Challenge",
-  description: "An interactive cybersecurity challenge where players break five locks and secure the system.",
+  title: "The 5 Locks — Team Abhedya",
+  description: "An Interactive Cybersecurity Challenge where players break five locks and secure the system.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
