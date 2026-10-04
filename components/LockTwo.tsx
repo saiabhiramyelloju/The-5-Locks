@@ -13,7 +13,7 @@ interface LockTwoProps {
 const LOCK_2_DEFAULT_HINTS = [
   "The first part is a word associated with computers, networks, and the digital world.",
   "The second part is a word for someone who protects something from danger.",
-  "The password ends with the four-digit year 2026.",
+  "The password ends with the year.",
   "Combine the first word, the second word, and the year together with no spaces."
 ];
 
