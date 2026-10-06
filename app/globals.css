@@ -1,12 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #2a2a2a;
-  --foreground: #ededed;
-  --cyber-grid-color: #3a3a3a;
-  --glass-bg: rgba(60, 60, 60, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --overlay-color: rgba(0, 0, 0, 0.1);
+  --background: #050811;
+  --foreground: #f8fafc;
+  --cyber-cyan: #00f0ff;
+  --cyber-emerald: #10b981;
+  --cyber-grid-color: rgba(6, 182, 212, 0.06);
+  --glass-bg: rgba(10, 16, 28, 0.75);
+  --glass-border: rgba(56, 189, 248, 0.14);
+  --overlay-color: rgba(5, 8, 17, 0.4);
 }
 
 @theme inline {
@@ -19,43 +21,100 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
+/* Subtle cybersecurity grid */
 .cyber-grid {
-  background-image: linear-gradient(to right, var(--cyber-grid-color) 1px, transparent 1px),
-                    linear-gradient(to bottom, var(--cyber-grid-color) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, var(--cyber-grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--cyber-grid-color) 1px, transparent 1px);
+  background-size: 36px 36px;
+  background-position: center center;
 }
 
+/* Glassmorphism SOC panels */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 
+    0 10px 30px -5px rgba(0, 0, 0, 0.6),
+    0 0 20px -5px rgba(6, 182, 212, 0.08),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
 }
 
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  border-color: rgba(0, 240, 255, 0.35);
+  box-shadow: 
+    0 14px 36px -4px rgba(0, 0, 0, 0.7),
+    0 0 24px -2px rgba(0, 240, 255, 0.15),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Cyber Button Styling */
+.cyber-btn-primary {
+  background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+  color: #050811;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 20px -2px rgba(255, 255, 255, 0.2);
+}
+
+.cyber-btn-primary:hover {
+  background: linear-gradient(135deg, #38bdf8 0%, #00f0ff 100%);
+  box-shadow: 0 0 25px 2px rgba(0, 240, 255, 0.4);
+  transform: translateY(-1px) scale(1.01);
+}
+
+.cyber-btn-primary:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+/* Keyframes */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
 }
 
 .animate-shake {
-  animation: shake 0.2s ease-in-out 0s 2;
+  animation: shake 0.35s ease-in-out;
 }
 
-@keyframes pulse-green {
-  0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-  70% { box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+@keyframes pulse-emerald {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+  70% { box-shadow: 0 0 0 14px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
 
-.animate-pulse-green {
-  animation: pulse-green 2s infinite;
+.animate-pulse-emerald {
+  animation: pulse-emerald 2s infinite;
 }
 
-.theme-overlay {
-  background-color: var(--overlay-color);
+/* Subtle scanline effect for SOC terminals */
+.scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
 }
