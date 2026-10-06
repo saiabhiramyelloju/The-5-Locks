@@ -16,7 +16,7 @@ const LOCK_2_DEFAULT_HINTS = [
   "The first part is a word associated with computers, networks, and the digital world.",
   "The second part is a word for someone who protects something from danger.",
   "The password ends with the four-digit year 2026.",
-  "Combine the first word, the second word, and the year together with no spaces.",
+  "Combine the first word, the second word, and the year together with no spaces."
 ];
 
 const LOCK_2_EXTRA_HINT = "Think of a protector of the digital world.";
@@ -250,11 +250,10 @@ export const LockTwo: React.FC<LockTwoProps> = ({
                 <button
                   onClick={handleGetExtraHint}
                   disabled={score < 10}
-                  className={`text-xs font-mono px-4 py-2 rounded-lg border transition-all uppercase tracking-wider font-bold shrink-0 ${
-                    score < 10
+                  className={`text-xs font-mono px-4 py-2 rounded-lg border transition-all uppercase tracking-wider font-bold shrink-0 ${score < 10
                       ? 'border-rose-500/30 text-rose-400 bg-rose-950/20 cursor-not-allowed'
                       : 'border-indigo-400/50 text-indigo-300 hover:bg-indigo-950/60 hover:text-white cursor-pointer'
-                  }`}
+                    }`}
                 >
                   {score < 10 ? 'NOT ENOUGH XP' : 'Unlock Extra Hint (-10 XP)'}
                 </button>
